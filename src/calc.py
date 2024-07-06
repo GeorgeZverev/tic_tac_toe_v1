@@ -4,3 +4,4 @@ def inc(x: int, y: int):
 x = 1
 y = 2
 d = inc(x, y)
+print(d)
