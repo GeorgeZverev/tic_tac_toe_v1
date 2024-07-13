@@ -120,7 +120,6 @@ def propose_best_coordinate_v2(combined_list: [], token: str, board: [], valid_c
     coordinates = propose_best_coordinate(combined_list, token)  # coordinate board, x, y
     array_potential_coordinates = copy_board_with_potential_coordinates(board, coordinates, token, token, valid_coordinates)
     max_token_coordinates = find_lists_with_max_token(array_potential_coordinates)
-    print(max_token_coordinates)
     result = max_token_coordinates[0]
     return result
 
@@ -219,9 +218,6 @@ def select_lists(all_coordinates_list: [], current_state_list: []) -> []:
 
 def is_free_of_enemy_token(combined_list: [], token: str, proposed_coordinate: str) -> bool:
     selected_lists = select_lists_with_possible_coordinates(combined_list, token)
-    print(token)
-    print('cooo', combined_list)
-    print('pppppp', proposed_coordinate)
     # check if we have ANY list free of opponent's tokens
     if not selected_lists:
         return True
