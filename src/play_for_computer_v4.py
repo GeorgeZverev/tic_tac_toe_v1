@@ -44,7 +44,7 @@ def compute_better_coordinate(board: [], token: str, valid_coordinates: []):
             (x, y) = map_from_coordinates(winning_coordinate)
             not_bad_coord_flag = True
         else:
-            proposed_coordinate = propose_best_coordinate_v2(combined_list, token, board, valid_coordinates)  # proposed_coordinate, x, y,
+            proposed_coordinate = propose_best_coordinate(combined_list, token, board, valid_coordinates)  # proposed_coordinate, x, y,
             (x, y) = map_from_coordinates(proposed_coordinate)
             not_bad_coord_flag = is_not_bad_coord(board, valid_coordinates, proposed_coordinate, token)
         if board[x][y] == '.' and not_bad_coord_flag:
@@ -101,7 +101,7 @@ def find_lists_with_max_token(array_potential_coordinates: {}) -> []:
     return array_max_token
 
 
-def propose_best_coordinate(combined_list: [], token: str) -> {}:  # coordinate: str, board: [], x: int, y: int
+def propose_dict_max_keys_coordinates(combined_list: [], token: str) -> {}:  # coordinate: str, board: [], x: int, y: int
     selected_lists = select_lists_with_possible_coordinates(combined_list, token)
     outer_key = 1
     flat_list = cross_lists(selected_lists, outer_key)
@@ -115,10 +115,10 @@ def propose_best_coordinate(combined_list: [], token: str) -> {}:  # coordinate:
     return dict_max_keys
 
 
-def propose_best_coordinate_v2(combined_list: [], token: str, board: [], valid_coordinates: []) -> str:  # coordinate: str, x: int, y: int
+def propose_best_coordinate(combined_list: [], token: str, board: [], valid_coordinates: []) -> str:  # coordinate: str, x: int, y: int
     token = flip_token(token)
-    coordinates = propose_best_coordinate(combined_list, token)  # coordinate board, x, y
-    array_potential_coordinates = copy_board_with_potential_coordinates(board, coordinates, token, token, valid_coordinates)
+    dict_max_keys_coordinates = propose_dict_max_keys_coordinates(combined_list, token)  # coordinate board, x, y
+    array_potential_coordinates = copy_board_with_potential_coordinates(board, dict_max_keys_coordinates, token, token, valid_coordinates)
     max_token_coordinates = find_lists_with_max_token(array_potential_coordinates)
     result = max_token_coordinates[0]
     return result

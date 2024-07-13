@@ -18,7 +18,7 @@ def parameter_combined_list():
 
 def test_first_step(parameter_combined_list):
     pr_combined_list = parameter_combined_list
-    res = propose_best_coordinate_v2(pr_combined_list, 'x', board, valid_coordinates)
+    res = propose_best_coordinate(pr_combined_list, 'x', board, valid_coordinates)
     assert res == 'b2'
 
 
@@ -78,37 +78,37 @@ def test_cross_list(parameter_combined_list):
 
 def test_propose_best_coordinates(parameter_combined_list):
     combined_list = parameter_combined_list
-    dict_max_keys = propose_best_coordinate(combined_list, 'x')
+    dict_max_keys = propose_dict_max_keys_coordinates(combined_list, 'x')
     assert dict_max_keys == ['b2']
 
     combined_list = [['a3x', 'b3.', 'c3.'], ['a3x', 'a2.', 'a1.'], ['a2.', 'b2o', 'c2.'],
                      ['b3.', 'b2o', 'b1.'], ['a1.', 'b1.', 'c1.'], ['c3.', 'c2.', 'c1.'],
                      ['a3x', 'b2o', 'c1.'], ['a1.', 'b2o', 'c3.']]
-    dict_max_keys = propose_best_coordinate(combined_list, 'x')
+    dict_max_keys = propose_dict_max_keys_coordinates(combined_list, 'x')
     assert dict_max_keys == ['c2', 'b1', 'a1', 'c1', 'c3']
 
     combined_list = [['a3x', 'b3.', 'c3o'], ['a3x', 'a2o', 'a1x'], ['a2o', 'b2o', 'c2x'],
                      ['b3.', 'b2o', 'b1.'], ['a1x', 'b1.', 'c1.'], ['c3o', 'c2x', 'c1.'],
                      ['a3x', 'b2o', 'c1.'], ['a1x', 'b2o', 'c3o']]
-    dict_max_keys = propose_best_coordinate(combined_list, 'x')
+    dict_max_keys = propose_dict_max_keys_coordinates(combined_list, 'x')
     assert dict_max_keys == ['b3', 'b1']
 
     combined_list = [['a3.', 'b3.', 'c3.'], ['a3.', 'a2.', 'a1.'], ['a2.', 'b2x', 'c2.'],
                      ['b3.', 'b2x', 'b1.'], ['a1.', 'b1.', 'c1.'], ['c3.', 'c2.', 'c1.'],
                      ['a3.', 'b2x', 'c1.'], ['a1.', 'b2x', 'c3.']]
-    dict_max_keys = propose_best_coordinate(combined_list, 'x')
+    dict_max_keys = propose_dict_max_keys_coordinates(combined_list, 'x')
     assert dict_max_keys == ['a3', 'c3', 'a1', 'c1']
 
     combined_list = [['a3.', 'b3.', 'c3.'], ['a3.', 'a2.', 'a1x'], ['a2.', 'b2o', 'c2.'],
                      ['b3.', 'b2o', 'b1.'], ['a1x', 'b1.', 'c1.'], ['c3.', 'c2.', 'c1.'],
                      ['a3.', 'b2o', 'c1.'], ['a1x', 'b2o', 'c3.']]
-    dict_max_keys = propose_best_coordinate(combined_list, 'x')
+    dict_max_keys = propose_dict_max_keys_coordinates(combined_list, 'x')
     assert dict_max_keys == ['a3', 'b3', 'c3', 'c2', 'c1']
 
 
 def test_propose_best_coordinates_v2(parameter_combined_list):
     combined_list = parameter_combined_list
-    res = propose_best_coordinate_v2(combined_list, 'x', board, valid_coordinates)
+    res = propose_best_coordinate(combined_list, 'x', board, valid_coordinates)
     assert res == 'b2'
 
 
