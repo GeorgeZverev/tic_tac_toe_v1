@@ -1,13 +1,13 @@
 import pytest
 from main import *
 
-b_1 = None
+board_1 = None
 
 
 @pytest.fixture(autouse=True)
 def foo():
-    global b_1
-    b_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
+    global board_1
+    board_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
 
 
 @pytest.fixture
@@ -58,13 +58,13 @@ def test_select_lists_with_possible_coordinates(parameter_combined_list):
 
 def test_round_for_computer():
     # b_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-    res = play_round_for_computer(b_1, True, valid_coordinates)
+    res = play_round_for_computer(board_1, True, valid_coordinates)
     assert res == 'b2'
 
 
 def test_play_computer_round():
     # b_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-    res = play_computer_round(b_1, 'x', valid_coordinates)
+    res = play_computer_round(board_1, 'x', valid_coordinates)
     assert res == 'b2'
 
 
@@ -118,7 +118,7 @@ def test_flip_token():
 
 
 def test_is_free_square_present(foo):
-    assert is_free_square_present(b_1) is True
+    assert is_free_square_present(board_1) is True
 
     b = [['x', 'x', 'o'], ['o', 'o', 'x'], ['x', 'x', 'o']]
     assert is_free_square_present(b) is False
