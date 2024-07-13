@@ -6,6 +6,7 @@ from play_for_computer_v4 import *
 board = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
 valid_coordinates = [["a3", "b3", "c3"], ["a2", "b2", "c2"], ["a1", "b1", "c1"]]
 
+
 def accept_coordinate() -> (str, str):
     coordinate = input("Enter a coordinate: ")
     if coordinate.isupper():
@@ -46,7 +47,7 @@ def print_current_state(board_param: [], coord_names: []) -> {}:
     for row_index, row in enumerate(board_param):
         for col_index, _ in enumerate(row):
             coordinates[coord_names[len(board_param) - 1 - row_index][col_index]] = \
-            board_param[len(board_param) - 1 - row_index][col_index]
+                board_param[len(board_param) - 1 - row_index][col_index]
     return coordinates
 
 
@@ -77,7 +78,7 @@ def print_current_coordinates(current_coord: {}):
             coordinates_to_print.append(key + "(" + value + ")")
             coordinates_to_print.append(", ")
     coordinates_to_print[-1] = "."
-    #print(''.join(coordinates_to_print))
+    # print(''.join(coordinates_to_print))
 
 
 def update_last_coordinate(board: [], token: str):
@@ -92,39 +93,47 @@ def update_last_coordinate(board: [], token: str):
     draw_board(board)
 
 
-if __name__ == '__main__':
-    # board = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-    # valid_coordinates = [["a3", "b3", "c3"], ["a2", "b2", "c2"], ["a1", "b1", "c1"]]
-    attempts = 0
+def define_turn() -> int:
     mode = accept_mode()
     if mode != 'h' and mode != 'c':
         print('You chose a non-existent mode')
         exit(1)
     if mode == 'h':
-        turn = 0
+        return 0
     else:
-        turn = 1
-    token_flag = True
+        return 1
+
+
+def generate_coordinate() -> (str, str):
+    if turn % 2 == 0:
+        return play_round_for_human(board)
+    else:
+        try:
+            return play_round_for_computer(board, True, valid_coordinates)
+        except MyError:
+            raise MyError
+
+
+def check_for_game_over(coordinate_param: str) -> int:
+    if is_valid(coordinate_param, valid_coordinates):
+        current_coordinates = print_current_state(board, valid_coordinates)
+        print_current_coordinates(current_coordinates)
+        return check_winner(board)
+    return -1
+
+if __name__ == '__main__':
+    attempts = 0
+    turn = define_turn()
     while True:
-        # os.system('cls')
-        if turn % 2 == 0:
-            (coordinate, token) = play_round_for_human(board)
-            if token == 'x':
-                token_flag = True
-            else:
-                token_flag = False
-        else:
-            try:
-                coordinate = play_round_for_computer(board, token_flag, valid_coordinates)
-            except MyError:
-                update_last_coordinate(board, token)
-                print("\nDraw")
-                break
+        try:
+            (coordinate, token) = generate_coordinate()
+        except MyError:
+            update_last_coordinate(board, token)
+            print("\nDraw")
+            break
         turn += 1
-        if is_valid(coordinate, valid_coordinates):
-            current_coordinates = print_current_state(board, valid_coordinates)
-            print_current_coordinates(current_coordinates)
-            result = check_winner(board)
+        result = check_for_game_over(coordinate)
+        if result >= 0:
             if result == 1:
                 print("\n'X's won")
                 break

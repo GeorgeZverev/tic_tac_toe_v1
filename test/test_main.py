@@ -12,6 +12,7 @@ def foo():
 
 @pytest.fixture
 def parameter_combined_list():
+
     pr_combined_list = create_combined_list(board, valid_coordinates)
     return pr_combined_list
 
@@ -59,7 +60,7 @@ def test_select_lists_with_possible_coordinates(parameter_combined_list):
 def test_round_for_computer():
     # b_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
     res = play_round_for_computer(board_1, True, valid_coordinates)
-    assert res == 'b2'
+    assert res == ('b2', 'x')
 
 
 def test_play_computer_round():

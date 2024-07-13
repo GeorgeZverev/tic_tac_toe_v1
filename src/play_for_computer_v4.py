@@ -6,13 +6,13 @@ from my_error import MyError
 from get_winning_coordinates import get_winning_coordinates
 
 
-def play_round_for_computer(board: [], flag: bool, valid_coordinates: []) -> str:
+def play_round_for_computer(board: [], flag: bool, valid_coordinates: []) -> (str, str):
     if flag == True:
         token = 'x'
     else:
         token = 'o'
     coordinate = play_computer_round(board, token, valid_coordinates)
-    return coordinate
+    return (coordinate, token)
 
 
 def play_computer_round(board: [], token: str, valid_coordinates: []):
