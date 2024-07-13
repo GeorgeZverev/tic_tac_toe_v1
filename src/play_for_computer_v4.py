@@ -47,7 +47,6 @@ def compute_better_coordinate(board: [], token: str, valid_coordinates: []):
             proposed_coordinate = propose_best_coordinate_v2(combined_list, token, board, valid_coordinates)  # proposed_coordinate, x, y,
             (x, y) = map_from_coordinates(proposed_coordinate)
             not_bad_coord_flag = is_not_bad_coord(board, valid_coordinates, proposed_coordinate, token)
-            print('flag:', not_bad_coord_flag)
         if board[x][y] == '.' and not_bad_coord_flag:
             if token == 'x':
                 board[x][y] = 'o'
@@ -103,7 +102,6 @@ def find_lists_with_max_token(array_potential_coordinates: {}) -> []:
 
 
 def propose_best_coordinate(combined_list: [], token: str) -> {}:  # coordinate: str, board: [], x: int, y: int
-    print(combined_list)
     selected_lists = select_lists_with_possible_coordinates(combined_list, token)
     outer_key = 1
     flat_list = cross_lists(selected_lists, outer_key)
@@ -114,7 +112,6 @@ def propose_best_coordinate(combined_list: [], token: str) -> {}:  # coordinate:
         raise MyError
     dict_max_keys = [k for k, v in countered_dict.items() if v == max_key]
     dict_max_keys = [element[:-1] for element in dict_max_keys]
-    print(dict_max_keys)
     return dict_max_keys
 
 
@@ -201,7 +198,7 @@ def is_human_win_in_one_move(combined_list: [], token: str) -> str | None:
 
 def is_not_bad_coord(board: [], valid_coordinates: [], proposed_coordinate: str, token: str) -> bool:
     combined_list = create_combined_list(board, valid_coordinates)
-    if is_free_of_enemys_token(combined_list, token, proposed_coordinate):
+    if is_free_of_enemy_token(combined_list, token, proposed_coordinate):
         return True
     return False
 
@@ -220,10 +217,11 @@ def select_lists(all_coordinates_list: [], current_state_list: []) -> []:
     return combined_list
 
 
-def is_free_of_enemys_token(combined_list: [], token: str, proposed_coordinate: str) -> bool:
+def is_free_of_enemy_token(combined_list: [], token: str, proposed_coordinate: str) -> bool:
     selected_lists = select_lists_with_possible_coordinates(combined_list, token)
-    print('token', token)
-    print('sel list:', selected_lists)
+    print(token)
+    print('cooo', combined_list)
+    print('pppppp', proposed_coordinate)
     # check if we have ANY list free of opponent's tokens
     if not selected_lists:
         return True
