@@ -121,6 +121,7 @@ def check_for_game_over(coordinate_param: str) -> int:
         return check_winner(board)
     return -1
 
+
 if __name__ == '__main__':
     attempts = 0
     turn = define_turn()

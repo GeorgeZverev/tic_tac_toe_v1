@@ -40,13 +40,19 @@ def compute_better_coordinate(board: [], token: str, valid_coordinates: []):
             not_bad_coord_flag = True
         else:
             winning_coordinate = is_human_win_in_one_move(combined_list, token)
+
         if winning_coordinate is not None:
             (x, y) = map_from_coordinates(winning_coordinate)
             not_bad_coord_flag = True
         else:
-            proposed_coordinate = propose_best_coordinate(combined_list, token, board, valid_coordinates)  # proposed_coordinate, x, y,
-            (x, y) = map_from_coordinates(proposed_coordinate)
-            not_bad_coord_flag = is_not_bad_coord(board, valid_coordinates, proposed_coordinate, token)
+            proposed_coordinate = is_win_in_two_moves(board, valid_coordinates)
+            if proposed_coordinate is None:
+                proposed_coordinate = propose_best_coordinate(combined_list, token, board, valid_coordinates)  # proposed_coordinate, x, y,
+                (x, y) = map_from_coordinates(proposed_coordinate)
+                not_bad_coord_flag = is_not_bad_coord(board, valid_coordinates, proposed_coordinate, token)
+            else:
+                (x, y) = map_from_coordinates(proposed_coordinate)
+                not_bad_coord_flag = True
         if board[x][y] == '.' and not_bad_coord_flag:
             if token == 'x':
                 board[x][y] = 'o'
@@ -255,3 +261,35 @@ def flip_token(token: str) -> str:
     else:
         token = 'x'
     return token
+
+
+def all_human_wins_in_one_move(combined_list: [], token: str) -> []:
+    winning_square = ''
+    winning_coordinates = []
+    for list in combined_list:
+        counter_tokens = 0
+        counter_free = 0
+        for element in list:
+            if token in element:
+                counter_tokens += 1
+            elif '.' in element:
+                counter_free += 1
+                winning_square = element
+        if counter_tokens == len(list) - 1 and counter_free > 0:
+            winning_coordinates.append(winning_square)
+    return winning_coordinates
+
+
+def is_win_in_two_moves(board: [], valid_coordinates: []) -> str | None:
+    copy_board = copy.deepcopy(board)
+    for y, aisle in enumerate(copy_board):
+        for x, _ in enumerate(aisle):
+            if copy_board[x][y] == '.':
+                copy_board[x][y] = 'x'
+                combined_list = create_combined_list(copy_board, valid_coordinates)
+                potential_winning_squares = all_human_wins_in_one_move(combined_list, 'x')
+                if len(potential_winning_squares) == 2:
+                    return map_to_coordinates(x, y)
+                else:
+                    copy_board[x][y] = '.'
+    return None
