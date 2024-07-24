@@ -12,7 +12,6 @@ def foo():
 
 @pytest.fixture
 def parameter_combined_list():
-
     pr_combined_list = create_combined_list(board, valid_coordinates)
     return pr_combined_list
 
@@ -215,3 +214,45 @@ def test_is_free_of_enemy_tokens():
                      ['a3o', 'b2x', 'c1x'], ['a1.', 'b2x', 'c3.']]
     assert is_free_of_enemy_token(combined_list, 'x', 'a1') is True
 
+
+def test_is_win_in_two_moves_ex():
+    brd_1 = [['.', 'x', '.'], ['.', 'o', '.'], ['x', '.', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'a3'
+
+    brd_1 = [['.', 'x', '.'], ['.', 'o', '.'], ['.', '.', 'x']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'c3'
+
+    brd_1 = [['x', '.', '.'], ['.', 'o', '.'], ['.', 'x', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'a1'
+
+    brd_1 = [['.', '.', 'x'], ['.', 'o', '.'], ['.', 'x', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'c1'
+
+    brd_1 = [['x', '.', '.'], ['.', 'o', 'x'], ['.', '.', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'c3'
+
+    brd_1 = [['.', '.', '.'], ['.', 'o', 'x'], ['x', '.', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'c1'
+
+    brd_1 = [['.', '.', '.'], ['x', 'o', '.'], ['.', '.', 'x']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'a1'
+
+    brd_1 = [['.', '.', 'x'], ['x', 'o', '.'], ['.', '.', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) == 'a3'
+
+
+def test_is_win_in_two_moves_non_ex():
+    brd_1 = [['.', 'x', '.'], ['.', 'o', '.'], ['.', 'x', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) is None
+
+    brd_1 = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) is None
+
+    brd_1 = [['.', 'o', '.'], ['.', 'o', '.'], ['.', 'x', '.']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) is None
+
+    brd_1 = [['o', '.', 'x'], ['.', 'o', '.'], ['o', 'x', 'x']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) is None
+
+    brd_1 = [['x', 'o', 'x'], ['o', 'o', 'x'], ['x', 'x', 'o']]
+    assert is_win_in_two_moves(brd_1, valid_coordinates) is None
